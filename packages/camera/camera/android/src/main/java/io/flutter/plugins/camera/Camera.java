@@ -583,8 +583,16 @@ class Camera
         };
 
     try {
-      captureSession.stopRepeating();
-      captureSession.abortCaptures();
+      /// fix 华为手机android7/8 拍照问题
+      if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.O) {
+        captureSession.stopRepeating();
+      } else {
+        captureSession.stopRepeating();
+        captureSession.abortCaptures();
+      }
+      /// fix end
+//      captureSession.stopRepeating();
+//      captureSession.abortCaptures();
       Log.i(TAG, "sending capture request");
       captureSession.capture(stillBuilder.build(), captureCallback, backgroundHandler);
     } catch (CameraAccessException e) {
