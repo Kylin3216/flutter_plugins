@@ -583,8 +583,8 @@ class Camera
         };
 
     try {
-      /// fix 华为手机android7/8 拍照问题
-      if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.O) {
+      /// fix 华为手机android7/8/8.1 拍照问题
+      if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.O_MR1) {
         captureSession.stopRepeating();
       } else {
         captureSession.stopRepeating();
