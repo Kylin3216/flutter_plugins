@@ -35,6 +35,8 @@ class CameraPreview extends StatelessWidget {
                     child ?? Container(),
                   ],
                 ),
+                //   ),
+                // ),
               );
             },
             child: child,
@@ -46,19 +48,30 @@ class CameraPreview extends StatelessWidget {
     if (kIsWeb || defaultTargetPlatform != TargetPlatform.android) {
       return child;
     }
-
-    return RotatedBox(
-      quarterTurns: _getQuarterTurns(),
-      child: child,
+    return Transform(
+      transform: Matrix4.diagonal3Values(_isMirror ? -1 : 1, 1, 1),
+      alignment: Alignment.center,
+      child: RotatedBox(
+        quarterTurns: _getQuarterTurns(),
+        child: child,
+      ),
     );
   }
 
+  bool get _isMirror => controller.description.lensDirection == CameraLensDirection.front;
+
   bool _isLandscape() {
+    if (controller.description.lensDirection != CameraLensDirection.front) {
+      return false;
+    }
     return [DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]
         .contains(_getApplicableOrientation());
   }
 
   int _getQuarterTurns() {
+    if (!_isMirror) {
+      return 0;
+    }
     Map<DeviceOrientation, int> turns = {
       DeviceOrientation.portraitUp: 0,
       DeviceOrientation.landscapeRight: 1,
