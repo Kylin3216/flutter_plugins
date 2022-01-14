@@ -59,6 +59,7 @@ android {
 }
 
 dependencies {
+    implementation 'androidx.exifinterface:exifinterface:1.3.2'
     compileOnly 'androidx.annotation:annotation:1.1.0'
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.mockito:mockito-inline:4.0.0'

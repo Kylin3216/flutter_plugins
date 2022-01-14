@@ -7,6 +7,8 @@ package io.flutter.plugins.camera.features.sensororientation;
 import android.app.Activity;
 import android.hardware.camera2.CameraMetadata;
 import android.hardware.camera2.CaptureRequest;
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import io.flutter.embedding.engine.systemchannels.PlatformChannel;
 import io.flutter.plugins.camera.CameraProperties;
@@ -17,7 +19,7 @@ import io.flutter.plugins.camera.features.resolution.ResolutionFeature;
 /** Provides access to the sensor orientation of the camera devices. */
 public class SensorOrientationFeature extends CameraFeature<Integer> {
   private Integer currentSetting = 0;
-  private final DeviceOrientationManager deviceOrientationListener;
+  private final OrientationManager deviceOrientationListener;
   private PlatformChannel.DeviceOrientation lockedCaptureOrientation;
 
   /**
@@ -38,7 +40,7 @@ public class SensorOrientationFeature extends CameraFeature<Integer> {
 
     boolean isFrontFacing = cameraProperties.getLensFacing() == CameraMetadata.LENS_FACING_FRONT;
     deviceOrientationListener =
-        DeviceOrientationManager.create(activity, dartMessenger, isFrontFacing, currentSetting);
+            OrientationManager.create(activity, dartMessenger, isFrontFacing, currentSetting);
     deviceOrientationListener.start();
   }
 
@@ -72,7 +74,7 @@ public class SensorOrientationFeature extends CameraFeature<Integer> {
    *
    * @return The instance of the {@link DeviceOrientationManager}.
    */
-  public DeviceOrientationManager getDeviceOrientationManager() {
+  public OrientationManager getDeviceOrientationManager() {
     return this.deviceOrientationListener;
   }
 
